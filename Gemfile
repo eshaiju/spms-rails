@@ -12,13 +12,12 @@ gem 'sass-rails', '~> 5.0'
 gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
 
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
 
 gem 'bootsnap', '>= 1.1.0', require: false
 
 group :development, :test do
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'pry-rails'
   gem 'rspec', '> 3.0.0'
   gem 'rspec-rails'
@@ -37,4 +36,8 @@ group :test do
   gem 'selenium-webdriver'
 end
 
+gem 'jwt'
 gem 'overcommit', require: false
+gem 'rack-cors', require: 'rack/cors'
+gem 'responders'
+gem 'swagger-docs'
