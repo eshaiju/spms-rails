@@ -2,8 +2,8 @@
 
 module Api
   module V1
-    class SessionController < ApplicationController
-      swagger_controller :session, 'Session'
+    class SessionsController < ApplicationController
+      swagger_controller :sessions, 'Sessions'
 
       swagger_api :login do |_api|
         summary 'API for get auth_token'

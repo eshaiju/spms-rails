@@ -8,9 +8,9 @@ module Api
       swagger_controller :users, 'Users'
 
       swagger_api :show do |_api|
-        summary "Fetches a single User item"
-        param :path, :id, :integer, :required, "User Id"
-        response :ok, "Success", :User
+        summary 'Fetches a single User item'
+        param :path, :id, :integer, :required, 'User Id'
+        response :ok, 'Success', :User
         response :not_found
       end
 
@@ -38,6 +38,16 @@ module Api
           render json: { status: 'User created successfully', user: user }, status: :created
         else
           render json: { errors: user.errors.full_messages }, status: :bad_request
+        end
+      end
+
+      def update
+        user = User.find(params[:id])
+
+        if user.update(user_params)
+          render json: { user: user, status: 'User updated successfully' }, status: :ok
+        else
+          render json: { errors: user.errors.full_messages }, status: 422
         end
       end
 
