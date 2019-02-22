@@ -3,9 +3,9 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :users, only: :create
-      post 'validate_token' => 'session#validate_token'
-      post 'login' => 'session#login'
+      resources :users
+      post 'validate_token' => 'sessions#validate_token'
+      post 'login' => 'sessions#login'
     end
   end
 end
