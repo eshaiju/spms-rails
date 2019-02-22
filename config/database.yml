@@ -10,7 +10,7 @@ development:
   database: spms_development_db
 test:
   <<: *default
-  database: 
+  database: spms_test_db
 
 
 staging:

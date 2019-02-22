@@ -71,6 +71,37 @@
           "method": "post"
         }
       ]
+    },
+    {
+      "path": "/api/v1/users/{id}",
+      "operations": [
+        {
+          "summary": "Fetches a single User item",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Id",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "User",
+              "message": "Success"
+            },
+            {
+              "code": 404,
+              "responseModel": null,
+              "message": "Not Found"
+            }
+          ],
+          "nickname": "Api::V1::Users#show",
+          "method": "get"
+        }
+      ]
     }
   ],
   "authorizations": null
