@@ -3,12 +3,14 @@
 module Api
   module V1
     class UsersController < ApplicationController
+      before_action :authenticate_request!, except: [:create]
       respond_to :json
 
       swagger_controller :users, 'Users'
 
       swagger_api :show do |_api|
         summary 'Fetches a single User item'
+        param :header, 'Authorization', :string, :required, 'Authentication token'
         param :path, :id, :integer, :required, 'User Id'
         response :ok, 'Success', :User
         response :not_found
@@ -39,6 +41,22 @@ module Api
         else
           render json: { errors: user.errors.full_messages }, status: :bad_request
         end
+      end
+
+      swagger_api :update do |_api|
+        summary 'Updates an existing User'
+        param :header, 'Authorization', :string, :required, 'Authentication token'
+        param :path, :id, :integer, :required, 'User Id'
+        param :form, 'user[email]', :string, :optional
+        param :form, 'user[first_name]', :string, :optional
+        param :form, 'user[last_name]', :string, :optional
+        param :form, 'user[emp_id]', :string, :optional
+        param :form, 'user[designation]', :string, :optional
+        param :form, 'user[password]', :string, :optional
+        param :form, 'user[password_confirmation]', :string, :optional
+
+        response :unauthorized
+        response :bad_request
       end
 
       def update
