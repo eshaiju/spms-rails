@@ -6,6 +6,7 @@ describe Api::V1::UsersController do
   describe 'GET #show' do
     before(:each) do
       @user = FactoryBot.create :user
+      @user.confirm
       api_authorization_header JsonWebToken.encode(user_id: @user.id)
       get :show, params: { id: @user.id }, format: :json
     end
@@ -54,13 +55,15 @@ describe Api::V1::UsersController do
     context 'when is successfully updated' do
       before(:each) do
         @user = FactoryBot.create :user
+        @user.confirm
         api_authorization_header JsonWebToken.encode(user_id: @user.id)
         patch :update, params: { id: @user.id,
-                                 user: { email: 'email@example.com' } }, format: :json
+                                 user: { first_name: 'John' } }, format: :json
+        @user.reload
       end
 
       it 'renders the json representation for the updated user' do
-        expect(json_response[:user][:email]).to eql 'email@example.com'
+        expect(json_response[:user][:first_name]).to eql 'John'
       end
 
       it { should respond_with 200 }
@@ -69,6 +72,7 @@ describe Api::V1::UsersController do
     context 'when is not created' do
       before(:each) do
         @user = FactoryBot.create :user
+        @user.confirm
         api_authorization_header JsonWebToken.encode(user_id: @user.id)
         patch :update, params: { id: @user.id,
                                  user: { email: 'bademail.com' } }, format: :json
