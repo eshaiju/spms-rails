@@ -5,7 +5,7 @@ require 'rails_helper'
 describe Api::V1::SessionsController do
   describe 'POST #login' do
     before(:each) do
-      @user = FactoryBot.create :user
+      @user = FactoryBot.create(:user, password: '12345678', password_confirmation: '12345678')
     end
 
     context 'when the credentials are correct' do
@@ -26,7 +26,7 @@ describe Api::V1::SessionsController do
 
     context 'when the credentials are incorrect' do
       before(:each) do
-        credentials = { email: @user.email, password: 'invalidpassword' }
+        credentials = { email: @user.email, password: 'invalidpassword',  }
         post :login, params: credentials
       end
 

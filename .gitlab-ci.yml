@@ -1,0 +1,41 @@
+image: ruby:2.6.1
+
+cache:
+  paths:
+    - vendor/bundle
+    - node_modules
+
+services:
+  - postgres:10.1
+
+variables:
+  BUNDLE_PATH: vendor/bundle
+  DISABLE_SPRING: 1
+  DB_HOST: postgres
+  POSTGRES_DB: ci_db
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+
+before_script:
+  # Install node and some other deps
+  - curl -sL https://deb.nodesource.com/setup_8.x | bash -
+  - apt-get update -yq
+  - apt-get install -y  nodejs
+  - echo "$MASTER_KEY" > config/master.key
+
+  # Project setup
+  - bundle check || bundle install --jobs $(nproc)
+
+  - cp config/database.yml.ci config/database.yml
+  - bundle exec rails db:create RAILS_ENV=test
+  - bundle exec rails db:schema:load RAILS_ENV=test
+
+stages:
+  - test
+  - lint
+  - deploy
+
+rspec:
+  stage: test
+  script:
+    - RAILS_ENV=test bundle exec rspec
