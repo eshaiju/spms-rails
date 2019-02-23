@@ -9,15 +9,14 @@ module Api
       swagger_controller :users, 'Users'
 
       swagger_api :show do |_api|
-        summary 'Fetches a single User item'
+        summary 'shows logged in user details'
         param :header, 'Authorization', :string, :required, 'Authentication token'
-        param :path, :id, :integer, :required, 'User Id'
         response :ok, 'Success', :User
         response :not_found
       end
 
       def show
-        respond_with User.find(params[:id])
+        respond_with @current_user
       end
 
       swagger_api :create do |_api|
@@ -44,9 +43,8 @@ module Api
       end
 
       swagger_api :update do |_api|
-        summary 'Updates an existing User'
+        summary 'Updates logged in user User'
         param :header, 'Authorization', :string, :required, 'Authentication token'
-        param :path, :id, :integer, :required, 'User Id'
         param :form, 'user[email]', :string, :optional
         param :form, 'user[first_name]', :string, :optional
         param :form, 'user[last_name]', :string, :optional
@@ -60,12 +58,10 @@ module Api
       end
 
       def update
-        user = User.find(params[:id])
-
-        if user.update(user_params)
-          render json: { user: user, status: 'User updated successfully' }, status: :ok
+        if @current_user.update(user_params)
+          render json: { user: @current_user, status: 'User updated successfully' }, status: :ok
         else
-          render json: { errors: user.errors.full_messages }, status: 422
+          render json: { errors: @current_user.errors.full_messages }, status: 422
         end
       end
 
