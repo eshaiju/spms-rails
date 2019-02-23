@@ -5,7 +5,9 @@ require 'rails_helper'
 describe Api::V1::SessionsController do
   describe 'POST #login' do
     before(:each) do
+      request.env['devise.mapping'] = Devise.mappings[:user]
       @user = FactoryBot.create(:user, password: '12345678', password_confirmation: '12345678')
+      @user.confirm
     end
 
     context 'when the credentials are correct' do
@@ -42,6 +44,7 @@ describe Api::V1::SessionsController do
   describe 'POST #validate_token' do
     before(:each) do
       @user = FactoryBot.create(:user, password: '12345678', password_confirmation: '12345678')
+      @user.confirm
     end
 
     context 'when the credentials are correct' do

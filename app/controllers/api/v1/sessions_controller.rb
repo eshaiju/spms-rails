@@ -17,7 +17,8 @@ module Api
       def login
         user = User.find_by(email: params[:email].to_s.downcase)
 
-        if user&.authenticate(params[:password])
+        if user&.valid_password?(params[:password])
+          sign_in(:user, user)
           auth_token = JsonWebToken.encode(user_id: user.id)
           render json: { auth_token: auth_token, user: user }, status: :ok
         else

@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  has_secure_password
+
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable, :confirmable, :lockable
+
   before_save :downcase_email
 
   validates :email, presence: true, uniqueness: true, format: {

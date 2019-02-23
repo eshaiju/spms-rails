@@ -16,7 +16,7 @@ module Api
       end
 
       def show
-        respond_with @current_user
+        respond_with current_user
       end
 
       swagger_api :create do |_api|
@@ -58,10 +58,10 @@ module Api
       end
 
       def update
-        if @current_user.update(user_params)
-          render json: { user: @current_user, status: 'User updated successfully' }, status: :ok
+        if current_user.update(user_params)
+          render json: { user: current_user, status: 'User updated successfully' }, status: :ok
         else
-          render json: { errors: @current_user.errors.full_messages }, status: 422
+          render json: { errors: current_user.errors.full_messages }, status: 422
         end
       end
 
