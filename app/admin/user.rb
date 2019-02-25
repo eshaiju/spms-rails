@@ -2,7 +2,7 @@
 
 ActiveAdmin.register User do
   menu priority: 3
-  permit_params :first_name, :last_name, :email, :emp_id, :designation, :password, :password_confirmation
+  permit_params :first_name, :last_name, :email, :emp_id, :designation, :password, :password_confirmation, project_ids: []
 
   index do
     selectable_column
@@ -18,21 +18,34 @@ ActiveAdmin.register User do
   filter :email
   filter :first_name
   filter :last_name
-  filter :designation, as: :select, collection: proc { User.designations.invert }
+  filter :designation, as: :select, collection: proc { User.designations.invert }, input_html: { class: "chosen-input" }
 
   show do |user|
-    attributes_table do
-      row :id
-      row :name
-      row :email
-      row :current_sign_in_at
-      row :sign_in_count
-      row :created_at
-      row 'Link for confirm' do |_cr|
-        if user.confirmed? == false
-          link_to 'Confirm', add_member_admin_user_path, data: { confirm: 'Are you sure?' }, class: 'btn-clear'
-        else
-          'Confirmed'
+    columns do
+      column do
+        attributes_table do
+          row :id
+          row :name
+          row :email
+          row :current_sign_in_at
+          row :sign_in_count
+          row :created_at
+          row 'Link for confirm' do |_cr|
+            if user.confirmed? == false
+              link_to 'Confirm', add_member_admin_user_path, data: { confirm: 'Are you sure?' }, class: 'btn-clear'
+            else
+              'Confirmed'
+            end
+          end
+        end
+      end
+      column do
+        panel 'Assigned Projects' do
+          table_for resource.projects do
+            column 'Project Name' do |project|
+              link_to project.name,admin_project_path(project)
+            end
+          end
         end
       end
     end
@@ -44,7 +57,8 @@ ActiveAdmin.register User do
       f.input :last_name
       f.input :email
       f.input :emp_id, label: 'Employ ID'
-      f.input :designation, as: :select, collection: User.designations.invert
+      f.input :designation, as: :select, collection: User.designations.invert, input_html: { class: 'chosen-input' }
+      f.input :projects, as: :select, collection: Project.all, input_html: { class: 'chosen-input' }
       f.input :password
       f.input :password_confirmation
     end
@@ -53,7 +67,7 @@ ActiveAdmin.register User do
 
   member_action :add_member, method: :get do
     resource.confirm
-    redirect_to :back, notice: 'Successfully confirmed the user'
+    redirect_to admin_users_path(resource), notice: 'Successfully confirmed the user'
   end
 
   controller do
