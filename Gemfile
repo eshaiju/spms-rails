@@ -35,10 +35,11 @@ group :test do
   gem 'selenium-webdriver'
 end
 
+gem 'activeadmin'
+gem 'arctic_admin'
 gem 'devise'
 gem 'jwt'
 gem 'overcommit', require: false
 gem 'rack-cors', require: 'rack/cors'
 gem 'responders'
 gem 'swagger-docs'
-gem 'activeadmin'

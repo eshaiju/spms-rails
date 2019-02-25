@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register AdminUser do
   permit_params :email, :password, :password_confirmation
 
@@ -9,6 +11,16 @@ ActiveAdmin.register AdminUser do
     column :sign_in_count
     column :created_at
     actions
+  end
+
+  show do |_user|
+    attributes_table do
+      row :id
+      row :email
+      row :current_sign_in_at
+      row :sign_in_count
+      row :created_at
+    end
   end
 
   filter :email

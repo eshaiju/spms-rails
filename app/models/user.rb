@@ -19,6 +19,10 @@ class User < ApplicationRecord
     self.email = email.delete(' ').downcase
   end
 
+  def name
+    "#{first_name} #{last_name}"
+  end
+
   def self.designations
     {
       developer: 'Developer',
