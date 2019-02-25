@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 password = Faker::Internet.password
 
 FactoryBot.define do

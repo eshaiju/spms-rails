@@ -5,13 +5,13 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.1'
 
+gem 'bootsnap', '>= 1.1.0', require: false
 gem 'pg'
 gem 'puma', '~> 3.11'
 gem 'rails', '~> 5.2.1'
 gem 'sass-rails', '~> 5.0'
 gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
-gem 'bootsnap', '>= 1.1.0', require: false
 
 group :development, :test do
   gem 'factory_bot_rails'
@@ -35,8 +35,8 @@ group :test do
   gem 'selenium-webdriver'
 end
 
-gem 'jwt'
 gem 'devise'
+gem 'jwt'
 gem 'overcommit', require: false
 gem 'rack-cors', require: 'rack/cors'
 gem 'responders'
