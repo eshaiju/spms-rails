@@ -2,8 +2,8 @@
 
 FactoryBot.define do
   factory :project do
-    name { 'MyString' }
+    name { Faker::Lorem.word }
     start_date { '2019-02-24' }
-    manager_id { nil }
+    manager { FactoryBot.create(:user) }
   end
 end

@@ -32,16 +32,18 @@ end
 group :test do
   gem 'capybara', '>= 2.15'
   gem 'chromedriver-helper'
+  gem 'cucumber-rails', require: false
+  gem 'database_cleaner'
+  gem 'launchy'
   gem 'selenium-webdriver'
 end
 
 gem 'activeadmin'
 gem 'arctic_admin'
+gem 'chosen-rails'
 gem 'devise'
 gem 'jwt'
 gem 'overcommit', require: false
 gem 'rack-cors', require: 'rack/cors'
 gem 'responders'
 gem 'swagger-docs'
-gem 'chosen-rails'
-
