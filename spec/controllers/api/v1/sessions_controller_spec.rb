@@ -28,7 +28,7 @@ describe Api::V1::SessionsController do
 
     context 'when the credentials are incorrect' do
       before(:each) do
-        credentials = { email: @user.email, password: 'invalidpassword',  }
+        credentials = { email: @user.email, password: 'invalidpassword' }
         post :login, params: credentials
       end
 
@@ -39,7 +39,6 @@ describe Api::V1::SessionsController do
       it { should respond_with 401 }
     end
   end
-
 
   describe 'POST #validate_token' do
     before(:each) do
@@ -62,7 +61,7 @@ describe Api::V1::SessionsController do
 
     context 'when the credentials are incorrect' do
       before(:each) do
-        api_authorization_header "invalid token"
+        api_authorization_header 'invalid token'
         post :validate_token
       end
 

@@ -2,20 +2,17 @@
 
 require 'rails_helper'
 
-# RSpec.describe User, type: :model do
-#   pending "add some examples to (or delete) #{__FILE__}"
-# end
-
-# require 'spec_helper'
-
 RSpec.describe User, type: :model do
-  before { @user = FactoryBot.build(:user) }
+  context '#associations' do
+    it { expect(User.reflect_on_association(:projects).macro).to eq(:has_many) }
+    it { expect(User.reflect_on_association(:managed_projects).macro).to eq(:has_many) }
+  end
 
-  subject { @user }
+  context '#validations' do
+    before { @user = FactoryBot.build(:user) }
 
-  it { should respond_to(:email) }
-  it { should respond_to(:password) }
-  it { should respond_to(:password_confirmation) }
+    subject { @user }
 
-  it { should be_valid }
+    it { is_expected.to validate_uniqueness_of(:email).ignoring_case_sensitivity }
+  end
 end
