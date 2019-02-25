@@ -41,3 +41,4 @@ gem 'overcommit', require: false
 gem 'rack-cors', require: 'rack/cors'
 gem 'responders'
 gem 'swagger-docs'
+gem 'activeadmin'
