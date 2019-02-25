@@ -18,7 +18,7 @@ ActiveAdmin.register User do
   filter :email
   filter :first_name
   filter :last_name
-  filter :designation, as: :select, collection: proc { User.designations.invert }, input_html: { class: "chosen-input" }
+  filter :designation, as: :select, collection: proc { User.designations.invert }, input_html: { class: 'chosen-input' }
 
   show do |user|
     columns do
@@ -43,7 +43,7 @@ ActiveAdmin.register User do
         panel 'Assigned Projects' do
           table_for resource.projects do
             column 'Project Name' do |project|
-              link_to project.name,admin_project_path(project)
+              link_to project.name, admin_project_path(project)
             end
           end
         end

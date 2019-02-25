@@ -15,4 +15,24 @@ RSpec.describe User, type: :model do
 
     it { is_expected.to validate_uniqueness_of(:email).ignoring_case_sensitivity }
   end
+
+  context '#methods' do
+    it 'returns designations' do
+      expect(User.designations).to eq ({
+        developer: 'Developer',
+        qa: 'QA',
+        manager: 'Manager'
+      })
+    end
+
+    it 'return full name' do
+      user = FactoryBot.build(:user)
+      expect(user.name).to eq "#{user.first_name} #{user.last_name}"
+    end
+
+    it 'downcase_email' do
+      user = FactoryBot.create(:user, email: 'Email@example.com ')
+      expect(user.email).to eq 'email@example.com'
+    end
+  end
 end

@@ -39,3 +39,4 @@ rspec:
   stage: test
   script:
     - RAILS_ENV=test bundle exec rspec
+    - RAILS_ENV=test bundle exec cucumber --tags "not @javascript"
