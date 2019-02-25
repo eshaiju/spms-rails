@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  has_many :users_projects
   has_many :projects, through: :users_projects
   has_many :managed_projects, through: :projects, foreign_key: :manager_id
 
@@ -16,5 +17,17 @@ class User < ApplicationRecord
 
   def downcase_email
     self.email = email.delete(' ').downcase
+  end
+
+  def name
+    "#{first_name} #{last_name}"
+  end
+
+  def self.designations
+    {
+      developer: 'Developer',
+      qa: 'QA',
+      manager: 'Manager'
+    }
   end
 end
