@@ -1,6 +1,6 @@
 # SPMS - secondary project management system
 
-[![Build Status](https://gitlab.com/shaiju.edakulangara/spms/badges/staging/pipeline.svg)](https://gitlab.com/shaiju.edakulangara/spms/badges/staging/pipeline.svg)
+[![Build Status](https://gitlab.com/shaiju.edakulangara/spms/badges/staging/pipeline.svg)](https://gitlab.com/shaiju.edakulangara/spms/pipelines)
 
 SPMS is a tool for track timesheets of secondary projects with an organization. 
 
