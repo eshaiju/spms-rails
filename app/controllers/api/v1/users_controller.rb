@@ -10,7 +10,11 @@ module Api
 
       swagger_api :me do |_api|
         summary 'shows logged in user details'
-        param :header, 'Authorization', :string, :required, 'Authentication token'
+        param :header,
+              'Authorization',
+              :string,
+              :required,
+              'Authentication token'
         response :ok, 'Success', :User
         response :not_found
       end
@@ -39,9 +43,14 @@ module Api
         user = User.new(user_params)
 
         if user.save
-          render json: { status: 'User created successfully', user: UserSerializer.new(user) }, status: :created
+          render json: {
+            status: 'User created successfully',
+            user: UserSerializer.new(user)
+          }, status: :created
         else
-          render json: { errors: user.errors.full_messages }, status: :bad_request
+          render json: {
+            errors: user.errors.full_messages
+          }, status: :bad_request
         end
       end
 
@@ -62,9 +71,14 @@ module Api
 
       def update
         if current_user.update(user_params)
-          render json: { user: UserSerializer.new(current_user), status: 'User updated successfully' }, status: :ok
+          render json: {
+            user: UserSerializer.new(current_user),
+            status: 'User updated successfully'
+          }, status: :ok
         else
-          render json: { errors: current_user.errors.full_messages }, status: 422
+          render json: {
+            errors: current_user.errors.full_messages
+          }, status: :unprocessable_entity
         end
       end
 
