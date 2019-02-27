@@ -22,7 +22,7 @@ Then I should see all details of a project
 
 @javascript
 Scenario: Should be able to create a new Project
-Given a Manger already created
+Given a manager already created
 Given Admin signed in
 Given I am on the New Project page
 And I fill in "project_name" with "PMG"

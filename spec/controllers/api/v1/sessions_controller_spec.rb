@@ -53,7 +53,7 @@ describe Api::V1::SessionsController do
       end
 
       it 'returns the user record corresponding to the given auth token' do
-        expect(json_response[:user][:email]).to eql @user.email
+        expect(json_response[:user][:data][:attributes][:email]).to eql @user.email
       end
 
       it { should respond_with 200 }

@@ -8,15 +8,18 @@ module Api
 
       swagger_controller :users, 'Users'
 
-      swagger_api :show do |_api|
+      swagger_api :me do |_api|
         summary 'shows logged in user details'
         param :header, 'Authorization', :string, :required, 'Authentication token'
         response :ok, 'Success', :User
         response :not_found
       end
 
-      def show
-        respond_with current_user
+      def me
+        respond_with UserSerializer.new(
+          current_user,
+          params: { include: [:projects] }
+        )
       end
 
       swagger_api :create do |_api|
@@ -36,7 +39,7 @@ module Api
         user = User.new(user_params)
 
         if user.save
-          render json: { status: 'User created successfully', user: user }, status: :created
+          render json: { status: 'User created successfully', user: UserSerializer.new(user) }, status: :created
         else
           render json: { errors: user.errors.full_messages }, status: :bad_request
         end
@@ -59,7 +62,7 @@ module Api
 
       def update
         if current_user.update(user_params)
-          render json: { user: current_user, status: 'User updated successfully' }, status: :ok
+          render json: { user: UserSerializer.new(current_user), status: 'User updated successfully' }, status: :ok
         else
           render json: { errors: current_user.errors.full_messages }, status: 422
         end

@@ -14,7 +14,7 @@ Then('I should see all projects') do
   end
 end
 
-Given('a Manger already created') do
+Given('a manager already created') do
   create_user
 end
 

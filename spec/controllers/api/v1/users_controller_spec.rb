@@ -3,16 +3,16 @@
 require 'rails_helper'
 
 describe Api::V1::UsersController do
-  describe 'GET #show' do
+  describe 'GET #me' do
     before(:each) do
       @user = FactoryBot.create :user
       @user.confirm
       api_authorization_header JsonWebToken.encode(user_id: @user.id)
-      get :show, params: { id: @user.id }, format: :json
+      get :me, params: { id: @user.id }, format: :json
     end
 
     it 'returns the information about a reporter on a hash' do
-      expect(json_response[:email]).to eql @user.email
+      expect(json_response[:data][:attributes][:email]).to eql @user.email
     end
 
     it { should respond_with 200 }
@@ -26,7 +26,7 @@ describe Api::V1::UsersController do
       end
 
       it 'renders the json representation for the user record just created' do
-        expect(json_response[:user][:email]).to eql @user_attributes[:email]
+        expect(json_response[:user][:data][:attributes][:email]).to eql @user_attributes[:email]
       end
 
       it { should respond_with 201 }
@@ -63,7 +63,7 @@ describe Api::V1::UsersController do
       end
 
       it 'renders the json representation for the updated user' do
-        expect(json_response[:user][:first_name]).to eql 'John'
+        expect(json_response[:user][:data][:attributes][:first_name]).to eql 'John'
       end
 
       it { should respond_with 200 }

@@ -42,6 +42,7 @@ gem 'activeadmin'
 gem 'arctic_admin'
 gem 'chosen-rails'
 gem 'devise'
+gem 'fast_jsonapi'
 gem 'jwt'
 gem 'overcommit', require: false
 gem 'rack-cors', require: 'rack/cors'
