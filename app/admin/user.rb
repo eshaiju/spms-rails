@@ -2,7 +2,8 @@
 
 ActiveAdmin.register User do
   menu priority: 3
-  permit_params :first_name, :last_name, :email, :emp_id, :designation, :password, :password_confirmation, project_ids: []
+  permit_params :first_name, :last_name, :email, :emp_id, :designation,
+                :password, :password_confirmation, project_ids: []
 
   index do
     selectable_column
@@ -18,7 +19,10 @@ ActiveAdmin.register User do
   filter :email
   filter :first_name
   filter :last_name
-  filter :designation, as: :select, collection: proc { User.designations.invert }, input_html: { class: 'chosen-input' }
+  filter :designation,
+         as: :select,
+         collection: proc { User.designations.invert },
+         input_html: { class: 'chosen-input' }
 
   show do |user|
     columns do
@@ -32,7 +36,10 @@ ActiveAdmin.register User do
           row :created_at
           row 'Link for confirm' do |_cr|
             if user.confirmed? == false
-              link_to 'Confirm', add_member_admin_user_path, data: { confirm: 'Are you sure?' }, class: 'btn-clear'
+              link_to 'Confirm',
+                      add_member_admin_user_path,
+                      data: { confirm: 'Are you sure?' },
+                      class: 'btn-clear'
             else
               'Confirmed'
             end
@@ -57,8 +64,14 @@ ActiveAdmin.register User do
       f.input :last_name
       f.input :email
       f.input :emp_id, label: 'Employ ID'
-      f.input :designation, as: :select, collection: User.designations.invert, input_html: { class: 'chosen-input' }
-      f.input :projects, as: :select, collection: Project.all, input_html: { class: 'chosen-input' }
+      f.input :designation,
+              as: :select,
+              collection: User.designations.invert,
+              input_html: { class: 'chosen-input' }
+      f.input :projects,
+              as: :select,
+              collection: Project.all,
+              input_html: { class: 'chosen-input' }
       f.input :password
       f.input :password_confirmation
     end
@@ -67,14 +80,16 @@ ActiveAdmin.register User do
 
   member_action :add_member, method: :get do
     resource.confirm
-    redirect_to admin_users_path(resource), notice: 'Successfully confirmed the user'
+    redirect_to admin_users_path(resource),
+                notice: 'Successfully confirmed the user'
   end
 
   controller do
     def update
       model = :user
       if params[model][:password].blank?
-        %w[password password_confirmation].each { |p| params[model].delete(p) }
+        %w[password password_confirmation]
+          .each { |p| params[model].delete(p) }
       end
       super
     end
