@@ -11,6 +11,8 @@ Rails.application.routes.draw do
           get 'me' => 'users#me'
         end
       end
+      resources :tickets
+
       get 'my_projects' => 'users_projects#my_projects'
       post 'validate_token' => 'sessions#validate_token'
       post 'login' => 'sessions#login'

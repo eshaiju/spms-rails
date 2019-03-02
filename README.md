@@ -14,7 +14,7 @@ SPMS is a tool for track timesheets of secondary projects with an organization.
 
 ## Commands
 - `bundle exec rubocop` - Run the full suite of linters on the codebase.
-- `bundle exec rspec` - Run the full rspec tests.
+- `bundle exec rspec` - Run the full Rspec tests.
 - `bundle exec cucumber` - Run the full feature specs.
 
 ## Deployment Instructions
@@ -22,3 +22,4 @@ SPMS is a tool for track timesheets of secondary projects with an organization.
 ## TODO
 
 ## Documentation
+- `rake swagger:docs` - Commands for generate swagger docs
