@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_many :users_projects
   has_many :projects, through: :users_projects
   has_many :managed_projects, through: :projects, foreign_key: :manager_id
+  has_many :created_tickets, as: :created_user
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :confirmable, :lockable

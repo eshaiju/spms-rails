@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register User do
-  menu priority: 3
+  menu priority: 4
   permit_params :first_name, :last_name, :email, :emp_id, :designation,
                 :password, :password_confirmation, project_ids: []
 
