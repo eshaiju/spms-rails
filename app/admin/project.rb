@@ -16,7 +16,10 @@ ActiveAdmin.register Project do
 
   filter :name
   filter :client_name
-  filter :manager, as: :select, collection: User.all, input_html: { class: 'chosen-input' }
+  filter :manager,
+         as: :select,
+         collection: User.all,
+         input_html: { class: 'chosen-input' }
 
   show do |_project|
     columns do
@@ -37,6 +40,18 @@ ActiveAdmin.register Project do
             end
           end
         end
+        panel 'Tickets' do
+          table_for resource.tickets.limit(10) do
+            column 'Ticket' do |ticket|
+              link_to ticket.title, admin_ticket_path(ticket)
+            end
+          end
+          if resource.tickets.length > 10
+            div do
+              link_to 'Show more',  admin_tickets_path + '?q[project_id_eq]=' + resource.id.to_s
+            end
+          end
+        end
       end
     end
   end
@@ -45,8 +60,14 @@ ActiveAdmin.register Project do
     f.inputs do
       f.input :name
       f.input :client_name
-      f.input :manager, as: :select, collection: User.all, input_html: { class: 'chosen-input' }
-      f.input :users, as: :select, collection: User.all, input_html: { class: 'chosen-input' }
+      f.input :manager,
+              as: :select,
+              collection: User.all,
+              input_html: { class: 'chosen-input' }
+      f.input :users,
+              as: :select,
+              collection: User.all,
+              input_html: { class: 'chosen-input' }
     end
     f.actions
   end

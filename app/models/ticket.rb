@@ -2,8 +2,8 @@
 
 class Ticket < ApplicationRecord
   belongs_to :project
-  has_one :created_user, class_name: 'User'
-  has_one :assigned_user, class_name: 'User'
+  belongs_to :created_user, polymorphic: true
+  belongs_to :assigned_user, class_name: 'User', optional: true
 
   validates :title, presence: true, uniqueness: true
   validates :start_date, :category, presence: true
@@ -14,6 +14,17 @@ class Ticket < ApplicationRecord
       bug: 'Bug',
       chore: 'Chore',
       support: 'Support'
+    }
+  end
+
+  def self.states
+    {
+      idea: 'Idea',
+      defined: 'Defined',
+      in_progress: 'In-Progress',
+      completed: 'Completed',
+      accepted: 'Accepted',
+      released: 'Released'
     }
   end
 end

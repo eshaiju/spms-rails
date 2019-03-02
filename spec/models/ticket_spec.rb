@@ -5,8 +5,8 @@ require 'rails_helper'
 RSpec.describe Ticket, type: :model do
   context '#associations' do
     it { expect(Ticket.reflect_on_association(:project).macro).to eq(:belongs_to) }
-    it { expect(Ticket.reflect_on_association(:created_user).macro).to eq(:has_one) }
-    it { expect(Ticket.reflect_on_association(:assigned_user).macro).to eq(:has_one) }
+    it { expect(Ticket.reflect_on_association(:created_user).macro).to eq(:belongs_to) }
+    it { expect(Ticket.reflect_on_association(:assigned_user).macro).to eq(:belongs_to) }
   end
 
   context '#validations' do
@@ -15,7 +15,9 @@ RSpec.describe Ticket, type: :model do
     before do
       manager = FactoryBot.create(:user)
       project = FactoryBot.create(:project, manager: manager)
-      @ticket = FactoryBot.create(:ticket, project: project)
+      @ticket = FactoryBot.create(:ticket,
+                                  project: project,
+                                  created_user: manager)
     end
 
     it { is_expected.to validate_uniqueness_of(:title) }
@@ -30,6 +32,17 @@ RSpec.describe Ticket, type: :model do
         bug: 'Bug',
         chore: 'Chore',
         support: 'Support'
+      })
+    end
+
+    it 'returns states' do
+      expect(Ticket.states).to eq ({
+        idea: 'Idea',
+        defined: 'Defined',
+        in_progress: 'In-Progress',
+        completed: 'Completed',
+        accepted: 'Accepted',
+        released: 'Released'
       })
     end
   end

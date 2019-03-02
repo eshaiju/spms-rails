@@ -15,20 +15,6 @@ ActiveRecord::Schema.define(version: 2019_03_02_091524) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "active_admin_comments", force: :cascade do |t|
-    t.string "namespace"
-    t.text "body"
-    t.string "resource_type"
-    t.bigint "resource_id"
-    t.string "author_type"
-    t.bigint "author_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
-    t.index ["namespace"], name: "index_active_admin_comments_on_namespace"
-    t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
-  end
-
   create_table "admin_users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -55,15 +41,17 @@ ActiveRecord::Schema.define(version: 2019_03_02_091524) do
     t.string "title"
     t.text "description"
     t.bigint "project_id"
-    t.string "status"
+    t.string "status", default: "idea"
     t.integer "maximum_permitted_time"
     t.integer "created_user_id"
+    t.string "created_user_type"
     t.integer "assigned_user_id"
     t.string "category"
     t.date "start_date"
     t.date "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["created_user_type", "created_user_id"], name: "index_tickets_on_created_user_type_and_created_user_id"
     t.index ["end_date"], name: "index_tickets_on_end_date"
     t.index ["project_id"], name: "index_tickets_on_project_id"
     t.index ["start_date"], name: "index_tickets_on_start_date"
