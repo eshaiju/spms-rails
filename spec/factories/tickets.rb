@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :ticket do
-    title { 'MyString' }
+    title { Faker::Lorem.word }
     description { 'MyText' }
     project { nil }
     status { 'MyString' }
