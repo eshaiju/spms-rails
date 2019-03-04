@@ -12,6 +12,7 @@ Rails.application.routes.draw do
         end
       end
       resources :tickets
+      resources :dashboard, only: :index
 
       get 'my_projects' => 'users_projects#my_projects'
       post 'validate_token' => 'sessions#validate_token'
