@@ -16,6 +16,12 @@ class DashboardService
     tickets
   end
 
+  def ticket_activity_logs
+    activity_logs = current_user.ticket_activity_logs
+    activity_logs = activity_logs.where('log_date >= ?', start_date) if start_date.present?
+    activity_logs
+  end
+
   delegate :id, to: :current_user
 
   def start_date

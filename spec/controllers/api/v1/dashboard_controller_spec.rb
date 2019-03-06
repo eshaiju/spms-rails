@@ -21,6 +21,13 @@ describe Api::V1::DashboardController do
                                       assigned_user_id: user.id,
                                       project_id: @project.id,
                                       start_date: Time.zone.now - 1.day)
+      @activity = FactoryBot.create(:ticket_activity_log,
+                                    ticket: @ticket,
+                                    user: user)
+      @activity_old = FactoryBot.create(:ticket_activity_log,
+                                        ticket: @ticket_old,
+                                        user: user,
+                                        log_date: Time.zone.now - 1.day)
       get :index, params: { start_date: Time.zone.now }, format: :json
     end
 
@@ -36,6 +43,10 @@ describe Api::V1::DashboardController do
       it 'returns all tickets of current user' do
         expect(json_response[:dashboard][:data][:attributes][:tickets][:data].count).to eql Ticket.count
       end
+
+      it 'returns all ticket_activity_logs current user' do
+        expect(json_response[:dashboard][:data][:attributes][:ticket_activity_logs][:data].count).to eql Ticket.count
+      end
     end
 
     context 'with start date' do
@@ -49,6 +60,10 @@ describe Api::V1::DashboardController do
 
       it 'returns tickets from start date current user' do
         expect(json_response[:dashboard][:data][:attributes][:tickets][:data].count).to eql Ticket.count - 1
+      end
+
+      it 'returns ticket_activity_logs from start date current user' do
+        expect(json_response[:dashboard][:data][:attributes][:ticket_activity_logs][:data].count).to eql Ticket.count - 1
       end
     end
 

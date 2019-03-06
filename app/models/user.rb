@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :managed_projects, through: :projects, foreign_key: :manager_id
   has_many :created_tickets, through: :tickets, foreign_key: :created_user_id
   has_many :tickets, foreign_key: :assigned_user_id
+  has_many :ticket_activity_logs
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :confirmable, :lockable
