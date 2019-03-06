@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_02_091524) do
+ActiveRecord::Schema.define(version: 2019_03_06_123505) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "active_admin_comments", force: :cascade do |t|
+    t.string "namespace"
+    t.text "body"
+    t.string "resource_type"
+    t.bigint "resource_id"
+    t.string "author_type"
+    t.bigint "author_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
+    t.index ["namespace"], name: "index_active_admin_comments_on_namespace"
+    t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
+  end
 
   create_table "admin_users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -37,6 +51,22 @@ ActiveRecord::Schema.define(version: 2019_03_02_091524) do
     t.index ["name"], name: "index_projects_on_name", unique: true
   end
 
+  create_table "ticket_activity_logs", force: :cascade do |t|
+    t.bigint "ticket_id"
+    t.bigint "user_id"
+    t.float "log_time"
+    t.date "log_date"
+    t.string "activity"
+    t.integer "approved_by"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["approved_by"], name: "index_ticket_activity_logs_on_approved_by"
+    t.index ["log_date"], name: "index_ticket_activity_logs_on_log_date"
+    t.index ["ticket_id"], name: "index_ticket_activity_logs_on_ticket_id"
+    t.index ["user_id"], name: "index_ticket_activity_logs_on_user_id"
+  end
+
   create_table "tickets", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -51,7 +81,6 @@ ActiveRecord::Schema.define(version: 2019_03_02_091524) do
     t.date "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["created_user_type", "created_user_id"], name: "index_tickets_on_created_user_type_and_created_user_id"
     t.index ["end_date"], name: "index_tickets_on_end_date"
     t.index ["project_id"], name: "index_tickets_on_project_id"
     t.index ["start_date"], name: "index_tickets_on_start_date"
@@ -97,6 +126,8 @@ ActiveRecord::Schema.define(version: 2019_03_02_091524) do
     t.index ["user_id"], name: "index_users_projects_on_user_id"
   end
 
+  add_foreign_key "ticket_activity_logs", "tickets"
+  add_foreign_key "ticket_activity_logs", "users"
   add_foreign_key "tickets", "projects"
   add_foreign_key "users_projects", "projects"
   add_foreign_key "users_projects", "users"

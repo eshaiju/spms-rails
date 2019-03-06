@@ -7,6 +7,7 @@ RSpec.describe Ticket, type: :model do
     it { expect(Ticket.reflect_on_association(:project).macro).to eq(:belongs_to) }
     it { expect(Ticket.reflect_on_association(:created_user).macro).to eq(:belongs_to) }
     it { expect(Ticket.reflect_on_association(:assigned_user).macro).to eq(:belongs_to) }
+    it { expect(Ticket.reflect_on_association(:ticket_activity_logs).macro).to eq(:has_many) }
   end
 
   context '#validations' do
