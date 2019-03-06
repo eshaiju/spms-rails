@@ -17,10 +17,10 @@ describe Api::V1::DashboardController do
                                   start_date: Time.zone.now)
 
       @ticket_old = FactoryBot.create(:ticket,
-                                  created_user: user,
-                                  assigned_user_id: user.id,
-                                  project_id: @project.id,
-                                  start_date: Time.zone.now - 1.day)
+                                      created_user: user,
+                                      assigned_user_id: user.id,
+                                      project_id: @project.id,
+                                      start_date: Time.zone.now - 1.day)
       get :index, params: { start_date: Time.zone.now }, format: :json
     end
 
@@ -52,8 +52,8 @@ describe Api::V1::DashboardController do
       end
     end
 
-    it 'returns all assigned projects name and ID' do 
-      expect(json_response[:dashboard][:data][:attributes][:projects][:data][0][:id]).to eql @project.id.to_s  
+    it 'returns all assigned projects name and ID' do
+      expect(json_response[:dashboard][:data][:attributes][:projects][:data][0][:id]).to eql @project.id.to_s
     end
 
     it { is_expected.to respond_with 200 }

@@ -41,7 +41,7 @@ ActiveAdmin.register Ticket do
           row :project
           row :maximum_permitted_time
           row :start_date
-          row :edn_date
+          row :end_date
           row :status
           row :category
           row :assigned_user
@@ -50,6 +50,17 @@ ActiveAdmin.register Ticket do
       end
       column do
         panel 'Activities' do
+          table_for resource.ticket_activity_logs.limit(10) do
+            column 'Activity' do |activity_log|
+              link_to activity_log.activity, admin_ticket_activity_log_path(ticket)
+            end
+            column 'Time', &:log_time
+          end
+          if resource.ticket_activity_logs.length > 10
+            div do
+              link_to 'Show more', admin_ticket_activity_logs_path + '?q[ticket_id_eq]=' + resource.id.to_s
+            end
+          end
         end
       end
     end
