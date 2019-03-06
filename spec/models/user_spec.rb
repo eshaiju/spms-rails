@@ -6,6 +6,8 @@ RSpec.describe User, type: :model do
   context '#associations' do
     it { expect(User.reflect_on_association(:projects).macro).to eq(:has_many) }
     it { expect(User.reflect_on_association(:managed_projects).macro).to eq(:has_many) }
+    it { expect(User.reflect_on_association(:tickets).macro).to eq(:has_many) }
+    it { expect(User.reflect_on_association(:ticket_activity_logs).macro).to eq(:has_many) }
   end
 
   context '#validations' do
