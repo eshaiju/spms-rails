@@ -38,5 +38,16 @@ stages:
 rspec:
   stage: test
   script:
-    - RAILS_ENV=test bundle exec rspec
     - RAILS_ENV=test bundle exec cucumber --tags "not @javascript"
+
+#Heroku deployment from development branch to master
+deploy_staging:
+ stage: deploy
+ script:
+   - git remote add heroku https://heroku:$HEROKU_DEV_KEY@git.heroku.com/spms-rails-staging.git
+   - git checkout -b development
+   - git push heroku development:master -f
+ environment:
+   name: development
+ only:
+   - development
