@@ -9,6 +9,7 @@ SPMS is a tool for track timesheets of secondary projects with an organization.
 1. Install Ruby 2.5. (It is suggested to use a Ruby version manager such as [rbenv](https://github.com/rbenv/rbenv#installation) and then to [install Ruby 2.5](https://github.com/rbenv/rbenv#installing-ruby-versions)).
 1. Install Bundler to manager dependencies: `gem install bundler`
 1. Setup the database: `bundle exec rake db:migrate`
+1. Delete your master.key and credentials.yml.enc files if any then ran: `bin/rails credentials:edit`
 
 5. Start the application: `bundle exec rails s`
 
