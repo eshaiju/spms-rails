@@ -23,7 +23,8 @@ describe Api::V1::DashboardController do
                                       start_date: Time.zone.now - 1.day)
       @activity = FactoryBot.create(:ticket_activity_log,
                                     ticket: @ticket,
-                                    user: user)
+                                    user: user,
+                                    log_date: Time.zone.now)
       @activity_old = FactoryBot.create(:ticket_activity_log,
                                         ticket: @ticket_old,
                                         user: user,

@@ -11,7 +11,7 @@ Rails.application.routes.draw do
           get 'me' => 'users#me'
         end
       end
-      resources :tickets
+      resources :tickets, :ticket_activity_logs
       resources :dashboard, only: :index
 
       get 'my_projects' => 'users_projects#my_projects'
