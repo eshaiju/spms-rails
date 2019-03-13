@@ -15,7 +15,7 @@ describe Api::V1::UsersController do
       expect(json_response[:data][:attributes][:email]).to eql @user.email
     end
 
-    it { should respond_with 200 }
+    it { is_expected.to respond_with 200 }
   end
 
   describe 'POST #create' do
@@ -29,7 +29,7 @@ describe Api::V1::UsersController do
         expect(json_response[:user][:data][:attributes][:email]).to eql @user_attributes[:email]
       end
 
-      it { should respond_with 201 }
+      it { is_expected.to respond_with 201 }
     end
 
     context 'when is not created' do
@@ -47,7 +47,7 @@ describe Api::V1::UsersController do
         expect(json_response[:errors]).to include "Email can't be blank"
       end
 
-      it { should respond_with 400 }
+      it { is_expected.to respond_with 400 }
     end
   end
 
