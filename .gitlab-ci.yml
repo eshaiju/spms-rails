@@ -40,7 +40,6 @@ rspec:
   script:
     - RAILS_ENV=test bundle exec cucumber --tags "not @javascript"
 
-#Heroku deployment from development branch to master
 deploy_staging:
  stage: deploy
  script:
