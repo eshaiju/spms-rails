@@ -17,7 +17,6 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'pry-rails'
-  gem 'rspec', '> 3.0.0'
   gem 'rspec-rails'
   gem 'shoulda-matchers'
   gem 'rubocop-rspec'
@@ -49,6 +48,8 @@ gem 'jwt'
 gem 'overcommit', require: false
 gem 'rack-cors', require: 'rack/cors'
 gem 'responders'
-gem 'rswag'
 gem 'kaminari'
 gem 'dotenv-rails'
+gem 'rswag'
+gem 'rspec', '> 3.0.0'
+
