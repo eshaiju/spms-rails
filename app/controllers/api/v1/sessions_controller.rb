@@ -3,17 +3,6 @@
 module Api
   module V1
     class SessionsController < ApplicationController
-      swagger_controller :sessions, 'Sessions'
-
-      swagger_api :login do |_api|
-        summary 'API for get auth_token'
-        param :form, 'email', :string, :required
-        param :form, 'password', :string, :required
-        param :form, 'password_confirmation', :string, :required
-
-        response :unauthorized
-      end
-
       def login
         user = User.find_by(email: params[:email].to_s.downcase)
 
@@ -29,17 +18,6 @@ module Api
             error: 'Invalid username/password'
           }, status: :unauthorized
         end
-      end
-
-      swagger_api :validate_token do |_api|
-        summary 'API for validate auth token'
-        param :header,
-              'Authorization',
-              :string,
-              :required,
-              'Authentication token'
-
-        response :unauthorized
       end
 
       def validate_token

@@ -49,6 +49,6 @@ gem 'jwt'
 gem 'overcommit', require: false
 gem 'rack-cors', require: 'rack/cors'
 gem 'responders'
-gem 'swagger-docs'
+gem 'rswag'
 gem 'kaminari'
 gem 'dotenv-rails'

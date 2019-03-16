@@ -23,4 +23,4 @@ SPMS is a tool for track timesheets of secondary projects with an organization.
 ## TODO
 
 ## Documentation
-- `rake swagger:docs` - Commands for generate swagger docs
+- `rake rswag:specs:swaggerize` - Commands for generate swagger docs
