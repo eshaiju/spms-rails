@@ -12,10 +12,9 @@ RSpec.describe 'Session' do
         type: :object,
         properties: {
           email: { type: :string },
-          password: { type: :string },
-          password_confirmation: { type: :string }
+          password: { type: :string }
         },
-        required: %i[email password password_confirmation]
+        required: %i[email password]
       }
 
       response '200', 'created' do
@@ -24,7 +23,7 @@ RSpec.describe 'Session' do
           @user.confirm
         end
 
-        let(:session) { { email: @user.email, password: @user.password, password_confirmation: @user.password_confirmation } }
+        let(:session) { { email: @user.email, password: @user.password } }
 
         run_test!
       end

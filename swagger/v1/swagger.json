@@ -62,15 +62,11 @@
                 },
                 "password": {
                   "type": "string"
-                },
-                "password_confirmation": {
-                  "type": "string"
                 }
               },
               "required": [
                 "email",
-                "password",
-                "password_confirmation"
+                "password"
               ]
             }
           }
