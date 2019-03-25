@@ -11,7 +11,10 @@ module Api
           auth_token = JsonWebToken.encode(user_id: user.id)
           render json: {
             auth_token: auth_token,
-            user: UserSerializer.new(user)
+            user: UserSerializer.new(
+              user,
+              params: { include: [:projects] }
+            )
           }, status: :ok
         else
           render json: {
@@ -24,7 +27,10 @@ module Api
         load_current_user!
         render json: {
           success: 'Token valid',
-          user: UserSerializer.new(current_user)
+          user: UserSerializer.new(
+              current_user,
+              params: { include: [:projects] }
+            )
         }, status: :ok
       rescue StandardError
         render json: {
