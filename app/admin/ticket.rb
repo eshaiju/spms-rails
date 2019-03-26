@@ -3,9 +3,10 @@
 ActiveAdmin.register Ticket do
   menu priority: 3
 
-  permit_params :title, :description, :project_id, :category, :status, :maximum_permitted_time, :start_date, :end_date, :assigned_user_id, :created_user_id, :created_user_type
+  permit_params :title, :ticket_no, :description, :project_id, :category, :status, :maximum_permitted_time, :start_date, :end_date, :assigned_user_id, :created_user_id, :created_user_type
 
   filter :title
+  filter :ticket_no
   filter :start_date
   filter :category,
          as: :select,
@@ -24,6 +25,7 @@ ActiveAdmin.register Ticket do
     selectable_column
     id_column
     column :title
+    column :ticket_no
     column :project
     column :category
     column :status
@@ -37,6 +39,7 @@ ActiveAdmin.register Ticket do
         attributes_table do
           row :id
           row :title
+          row :ticket_no
           row :description
           row :project
           row :maximum_permitted_time
@@ -69,6 +72,7 @@ ActiveAdmin.register Ticket do
   form do |f|
     f.inputs do
       f.input :title
+      f.input :ticket_no
       f.input :description
       f.input :project,
               as: :select,
