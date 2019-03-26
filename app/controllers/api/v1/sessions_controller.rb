@@ -28,9 +28,9 @@ module Api
         render json: {
           success: 'Token valid',
           user: UserSerializer.new(
-              current_user,
-              params: { include: [:projects] }
-            )
+            current_user,
+            params: { include: [:projects] }
+          )
         }, status: :ok
       rescue StandardError
         render json: {

@@ -6,7 +6,7 @@ class Ticket < ApplicationRecord
   belongs_to :assigned_user, class_name: 'User', optional: true
   has_many :ticket_activity_logs
 
-  validates :title, presence: true, uniqueness: true
+  validates :title, :ticket_no, presence: true, uniqueness: true
   validates :start_date, :category, presence: true
 
   def self.categories

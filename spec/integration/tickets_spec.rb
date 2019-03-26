@@ -14,7 +14,7 @@ describe 'Ticket API' do
         required: true,
         description: 'Authentication token'
       )
-      parameter name: :project_id, in: :query, type: :integer, required: true
+      parameter name: :project_id, in: :query, type: :integer, optional: true
       parameter name: :assigned_user_id, in: :query, type: :integer, required: true
       parameter name: :page, in: :query, type: :integer, optional: true
 
@@ -39,6 +39,116 @@ describe 'Ticket API' do
         let(:project_id) { '' }
         let(:assigned_user_id) { '' }
         let(:page) { 0 }
+        run_test!
+      end
+    end
+  end
+
+  path '/api/v1/tickets' do
+    post 'Create a ticket' do
+      tags 'Ticket'
+      consumes 'application/json'
+      produces 'application/json'
+      parameter(
+        in: :header,
+        type: :string,
+        name: 'Authorization',
+        required: true,
+        description: 'Authentication token'
+      )
+
+      parameter name: :ticket, in: :body, schema: {
+        type: :object,
+        properties: {
+          ticket: {
+            properties: {
+              title: { type: :string },
+              ticket_no: { type: :string },
+              description: { type: :string },
+              category: { type: :string },
+              status: { type: :status },
+              maximum_permitted_time: { type: :string },
+              start_date: { type: :string },
+              end_date: { type: :string },
+              project_id: { type: :integer },
+              assigned_user_id: { type: :integer },
+              created_user_id: { type: :integer },
+              created_user_type: { type: :string }
+            }
+          }
+        },
+        required: %i[title ticket_no start_date project_id created_user_id created_user_type]
+      }
+
+      response '201', '' do
+        let(:user) { FactoryBot.create(:user, password: '12345678', password_confirmation: '12345678') }
+        let(:Authorization) { JsonWebToken.encode(user_id: user.id) }
+        let(:project) { FactoryBot.create(:project, manager: user) }
+        let(:ticket) do
+          FactoryBot.attributes_for(:ticket,
+                                    project_id: project.id,
+                                    created_user_id: user.id,
+                                    created_user_type: user.class.name)
+        end
+
+        run_test!
+      end
+
+      response '401', '' do
+        let(:Authorization) { '' }
+        let(:ticket) { {} }
+        run_test!
+      end
+    end
+  end
+
+  path '/api/v1/tickets/{id}/' do
+    put 'Updates ticket' do
+      tags 'Ticket'
+      consumes 'application/json'
+      produces 'application/json'
+      parameter(
+        in: :header,
+        type: :string,
+        name: 'Authorization',
+        required: true,
+        description: 'Authentication token'
+      )
+
+      parameter name: :id, in: :path, type: :string
+
+      parameter name: :ticket, in: :body, schema: {
+        type: :object,
+        properties: {
+          ticket: {
+            properties: {
+              title: { type: :string },
+              ticket_no: { type: :string },
+              description: { type: :string },
+              category: { type: :string },
+              status: { type: :status },
+              maximum_permitted_time: { type: :string },
+              start_date: { type: :string },
+              end_date: { type: :string },
+              assigned_user_id: { type: :integer },
+              created_user_id: { type: :integer },
+              created_user_type: { type: :string }
+            }
+          }
+        }
+      }
+
+      let(:user) { FactoryBot.create(:user, password: '12345678', password_confirmation: '12345678') }
+      let(:Authorization) { JsonWebToken.encode(user_id: user.id) }
+      let(:project) { FactoryBot.create(:project, manager: user) }
+      let(:ticket) do
+        FactoryBot.create(:ticket,
+                          project: project,
+                          created_user: user)
+      end
+
+      response '200', 'user updated' do
+        let(:id) { ticket.id }
         run_test!
       end
     end

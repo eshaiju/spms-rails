@@ -99,7 +99,7 @@ describe 'Users API' do
 
       let(:user) { FactoryBot.create(:user) }
       let(:Authorization) { JsonWebToken.encode(user_id: user.id) }
-      
+
       response '200', 'user updated' do
         let(:id) { user.id }
         run_test!

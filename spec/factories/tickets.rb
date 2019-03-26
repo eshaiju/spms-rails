@@ -3,6 +3,7 @@
 FactoryBot.define do
   factory :ticket do
     title { Faker::Lorem.word }
+    ticket_no { Faker::Code.npi }
     description { 'MyText' }
     project { nil }
     status { 'MyString' }
