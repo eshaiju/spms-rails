@@ -106,4 +106,47 @@ describe Api::V1::TicketsController do
       it { is_expected.to respond_with 422 }
     end
   end
+
+  describe 'DELETE #destroy' do
+    before do
+      @project = FactoryBot.create(:project, manager: @user)
+    end
+
+    context 'when is successfully deleted' do
+      before do
+        @ticket = FactoryBot.create(:ticket,
+                                    project: @project,
+                                    created_user: @user)
+      end
+
+      before do
+        delete :destroy, params: { id: @ticket.id }, format: :json
+      end
+
+      it { is_expected.to respond_with 200 }
+    end
+
+    context 'when unauthorized' do
+      before do
+        @another_user = FactoryBot.create(:user)
+        @ticket = FactoryBot.create(:ticket,
+                                    project: @project,
+                                    created_user: @another_user)
+      end
+
+      before do
+        delete :destroy, params: { id: @ticket.id }, format: :json
+      end
+
+      it 'renders an errors json' do
+        expect(json_response).to have_key(:error)
+      end
+
+      it 'renders the json errors on whye the user could not be created' do
+        expect(json_response[:error]).to eq 'unauthorized'
+      end
+
+      it { is_expected.to respond_with 401 }
+    end
+  end
 end

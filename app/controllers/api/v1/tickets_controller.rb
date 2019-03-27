@@ -15,7 +15,6 @@ module Api
 
       def create
         ticket = Ticket.new(ticket_params)
-
         if ticket.save
           render json: {
             status: 'Ticket created successfully',
@@ -30,6 +29,7 @@ module Api
 
       def update
         ticket = Ticket.find_by(id: params[:id])
+        return not_found if ticket.blank?
 
         if ticket.update(ticket_params)
           render json: {
@@ -39,6 +39,23 @@ module Api
         else
           render json: {
             errors: ticket.errors.full_messages
+          }, status: :unprocessable_entity
+        end
+      end
+
+      def destroy
+        @ticket = Ticket.find_by(id: params[:id])
+
+        return not_found if @ticket.blank?
+        return invalid_authentication unless ticket_policy.destroy?
+
+        if ticket_policy.destroy? && @ticket.destroy
+          render json: {
+            status: 'Ticket deleted successfully'
+          }, status: :ok
+        else
+          render json: {
+            errors: @ticket.errors.full_messages
           }, status: :unprocessable_entity
         end
       end
@@ -60,6 +77,10 @@ module Api
           :created_user_id,
           :created_user_type
         )
+      end
+
+      def ticket_policy
+        @ticket_policy ||= TicketPolicy.new(current_user: current_user, resource: @ticket)
       end
     end
   end

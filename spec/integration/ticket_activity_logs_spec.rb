@@ -103,7 +103,7 @@ describe 'Ticket Activity Log API' do
                           user_id: user.id)
       end
 
-      response '200', 'user updated' do
+      response '200', 'ticket activity log updated' do
         let(:id) { ticket_activity_log.id }
         run_test!
       end
