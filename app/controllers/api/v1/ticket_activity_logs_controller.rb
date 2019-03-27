@@ -6,6 +6,13 @@ module Api
       before_action :authenticate_request!
       respond_to :json
 
+      def index
+        ticket_activity_logs = TicketActivityLogService.new(params, current_user).all
+        render json: {
+          ticket_activity_logs: TicketActivityLogSerializer.new(ticket_activity_logs)
+        }, status: :ok
+      end
+
       def create
         ticket_activity = TicketActivityLog.new(ticket_activity_log_params)
 

@@ -22,7 +22,7 @@ ActiveAdmin.register TicketActivityLog do
     column :activity
     column :log_time
     column :log_date
-    column :ticket
+    column :ticket_no
     column :user
     column :status
     actions

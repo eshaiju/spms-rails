@@ -6,5 +6,6 @@ class TicketActivityLog < ApplicationRecord
 
   validates :activity, :log_date, :log_time, presence: true
 
-  delegate :title, :id, to: :ticket, prefix: :ticket
+  delegate :title, :id, to: :ticket, prefix: :ticket, allow_nil: true
+  delegate :ticket_no, to: :ticket, allow_nil: true
 end
