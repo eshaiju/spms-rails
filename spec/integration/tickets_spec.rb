@@ -147,9 +147,40 @@ describe 'Ticket API' do
                           created_user: user)
       end
 
-      response '200', 'user updated' do
+      response '200', 'ticket updated' do
         let(:id) { ticket.id }
         run_test!
+      end
+    end
+
+    path '/api/v1/tickets/{id}/' do
+      delete 'Delete ticket' do
+        tags 'Ticket'
+        consumes 'application/json'
+        produces 'application/json'
+        parameter(
+          in: :header,
+          type: :string,
+          name: 'Authorization',
+          required: true,
+          description: 'Authentication token'
+        )
+
+        parameter name: :id, in: :path, type: :string
+
+        let(:user) { FactoryBot.create(:user, password: '12345678', password_confirmation: '12345678') }
+        let(:Authorization) { JsonWebToken.encode(user_id: user.id) }
+        let(:project) { FactoryBot.create(:project, manager: user) }
+        let(:ticket) do
+          FactoryBot.create(:ticket,
+                            project: project,
+                            created_user: user)
+        end
+
+        response '200', 'ticket deleted' do
+          let(:id) { ticket.id }
+          run_test!
+        end
       end
     end
   end

@@ -337,6 +337,9 @@
                     "end_date": {
                       "type": "string"
                     },
+                    "project_id": {
+                      "type": "integer"
+                    },
                     "assigned_user_id": {
                       "type": "integer"
                     },
@@ -353,6 +356,7 @@
                 "title",
                 "ticket_no",
                 "start_date",
+                "project_id",
                 "created_user_id",
                 "created_user_type"
               ]
@@ -444,7 +448,39 @@
         ],
         "responses": {
           "200": {
-            "description": "user updated"
+            "description": "ticket updated"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete ticket",
+        "tags": [
+          "Ticket"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "type": "string",
+            "name": "Authorization",
+            "required": true,
+            "description": "Authentication token"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ticket deleted"
           }
         }
       }
