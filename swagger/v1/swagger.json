@@ -236,7 +236,7 @@
         ],
         "responses": {
           "200": {
-            "description": "user updated"
+            "description": "ticket activity log updated"
           }
         }
       }

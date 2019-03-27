@@ -23,6 +23,7 @@ module Api
 
       def update
         ticket_activity = TicketActivityLog.find_by(id: params[:id])
+        return not_found if ticket_activity.blank?
 
         if ticket_activity.update(ticket_activity_log_params)
           render json: {

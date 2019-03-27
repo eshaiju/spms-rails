@@ -29,6 +29,7 @@ module Api
 
       def update
         ticket = Ticket.find_by(id: params[:id])
+        return not_found if ticket.blank?
 
         if ticket.update(ticket_params)
           render json: {
