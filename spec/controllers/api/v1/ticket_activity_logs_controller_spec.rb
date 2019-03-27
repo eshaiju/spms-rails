@@ -7,17 +7,38 @@ describe Api::V1::TicketActivityLogsController do
     @user = FactoryBot.create(:user)
     @user.confirm
     api_authorization_header JsonWebToken.encode(user_id: @user.id)
+    project = FactoryBot.create(:project)
+    @ticket = FactoryBot.create(:ticket,
+                                created_user: @user,
+                                assigned_user_id: @user.id,
+                                project_id: project.id)
+  end
+
+  describe 'GET #index' do
+    before do
+      @ticket_activity_log = FactoryBot.create(:ticket_activity_log,
+                                               ticket_id: @ticket.id,
+                                               user_id: @user.id)
+
+      get :index, params: { user_id: @user.id, ticket_id: @ticket.id }, format: :json
+    end
+
+    it 'returns the information about ticket activity logs of a ticket' do
+      expect(json_response[:ticket_activity_logs][:data][0][:attributes][:activity]).to eql @ticket_activity_log.activity
+    end
+
+    it 'returns the information about assigned user details of activity log' do
+      expect(json_response[:ticket_activity_logs][:data][0][:attributes][:user][:data][:id]).to eql @ticket_activity_log.user.id.to_s
+    end
+
+    it { is_expected.to respond_with 200 }
   end
 
   describe 'POST #create' do
     context 'when is successfully created' do
       before do
-        project = FactoryBot.create(:project, manager: @user)
-        ticket = FactoryBot.create(:ticket,
-                                   project: project,
-                                   created_user: @user)
         @ticket_activity_log_attributes = FactoryBot.attributes_for(:ticket_activity_log,
-                                                                    ticket_id: ticket.id,
+                                                                    ticket_id: @ticket.id,
                                                                     user_id: @user.id)
 
         post :create, params: { ticket_activity_log: @ticket_activity_log_attributes }
@@ -50,12 +71,8 @@ describe Api::V1::TicketActivityLogsController do
 
   describe 'PUT/PATCH #update' do
     before do
-      project = FactoryBot.create(:project, manager: @user)
-      ticket = FactoryBot.create(:ticket,
-                                 project: project,
-                                 created_user: @user)
       @ticket_activity_log = FactoryBot.create(:ticket_activity_log,
-                                               ticket_id: ticket.id,
+                                               ticket_id: @ticket.id,
                                                user_id: @user.id)
     end
 

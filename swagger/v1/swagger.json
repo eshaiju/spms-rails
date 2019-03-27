@@ -107,6 +107,50 @@
       }
     },
     "/api/v1/ticket_activity_logs": {
+      "get": {
+        "summary": "Retrieves all ticket activity logs of ticket and user",
+        "tags": [
+          "TicketActivityLog"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "type": "string",
+            "name": "Authorization",
+            "required": true,
+            "description": "Authentication token"
+          },
+          {
+            "name": "ticket_id",
+            "in": "query",
+            "type": "integer",
+            "optional": true
+          },
+          {
+            "name": "user_id",
+            "in": "query",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "integer",
+            "optional": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "401": {
+            "description": ""
+          }
+        }
+      },
       "post": {
         "summary": "Create a ticket activity log",
         "tags": [

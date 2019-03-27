@@ -4,6 +4,52 @@ require 'swagger_helper'
 
 describe 'Ticket Activity Log API' do
   path '/api/v1/ticket_activity_logs' do
+    get 'Retrieves all ticket activity logs of ticket and user' do
+      tags 'TicketActivityLog'
+      produces 'application/json'
+      parameter(
+        in: :header,
+        type: :string,
+        name: 'Authorization',
+        required: true,
+        description: 'Authentication token'
+      )
+      parameter name: :ticket_id, in: :query, type: :integer, optional: true
+      parameter name: :user_id, in: :query, type: :integer, required: true
+      parameter name: :page, in: :query, type: :integer, optional: true
+
+      response '200', '' do
+        let(:user) { FactoryBot.create(:user) }
+        let(:Authorization) { JsonWebToken.encode(user_id: user.id) }
+        let(:project) { FactoryBot.create(:project) }
+        let(:ticket) do
+          FactoryBot.create(:ticket,
+                            created_user: user,
+                            assigned_user_id: user.id,
+                            project_id: project.id)
+        end
+        let(:ticket_activity_log) do
+          FactoryBot.create(:ticket_activity_log,
+                            ticket_id: ticket.id,
+                            user_id: user.id)
+        end
+        let(:ticket_id) { project.id }
+        let(:user_id) { user.id }
+        let(:page) { 0 }
+        run_test!
+      end
+
+      response '401', '' do
+        let(:Authorization) { '' }
+        let(:ticket_id) { '' }
+        let(:user_id) { '' }
+        let(:page) { 0 }
+        run_test!
+      end
+    end
+  end
+
+  path '/api/v1/ticket_activity_logs' do
     post 'Create a ticket activity log' do
       tags 'TicketActivityLog'
       consumes 'application/json'
