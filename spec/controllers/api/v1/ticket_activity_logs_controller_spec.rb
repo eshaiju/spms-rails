@@ -107,4 +107,27 @@ describe Api::V1::TicketActivityLogsController do
       it { is_expected.to respond_with 422 }
     end
   end
+
+  describe 'DELETE #destroy' do
+    before do
+      @project = FactoryBot.create(:project, manager: @user)
+    end
+
+    context 'when is successfully deleted' do
+      before do
+        @ticket = FactoryBot.create(:ticket,
+                                    project: @project,
+                                    created_user: @user)
+        @ticket_activity_log = FactoryBot.create(:ticket_activity_log,
+                                                 ticket_id: @ticket.id,
+                                                 user_id: @user.id)
+      end
+
+      before do
+        delete :destroy, params: { id: @ticket_activity_log.id }, format: :json
+      end
+
+      it { is_expected.to respond_with 200 }
+    end
+  end
 end
