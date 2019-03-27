@@ -44,6 +44,22 @@ module Api
         end
       end
 
+      def destroy
+        @ticket_activity = TicketActivityLog.find_by(id: params[:id])
+
+        return not_found if @ticket_activity.blank?
+
+        if @ticket_activity.destroy
+          render json: {
+            status: 'Ticket Activity Log deleted successfully'
+          }, status: :ok
+        else
+          render json: {
+            errors: @ticket_activity.errors.full_messages
+          }, status: :unprocessable_entity
+        end
+      end
+
       private
 
       def ticket_activity_log_params

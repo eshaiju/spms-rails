@@ -155,4 +155,40 @@ describe 'Ticket Activity Log API' do
       end
     end
   end
+
+  path '/api/v1/ticket_activity_logs/{id}/' do
+    delete 'Delete ticket activity log' do
+      tags 'TicketActivityLog'
+      consumes 'application/json'
+      produces 'application/json'
+      parameter(
+        in: :header,
+        type: :string,
+        name: 'Authorization',
+        required: true,
+        description: 'Authentication token'
+      )
+
+      parameter name: :id, in: :path, type: :string
+
+      let(:user) { FactoryBot.create(:user, password: '12345678', password_confirmation: '12345678') }
+      let(:Authorization) { JsonWebToken.encode(user_id: user.id) }
+      let(:project) { FactoryBot.create(:project, manager: user) }
+      let(:ticket) do
+        FactoryBot.create(:ticket,
+                          project: project,
+                          created_user: user)
+      end
+      let(:ticket_activity_log) do
+        FactoryBot.create(:ticket_activity_log,
+                          ticket_id: ticket.id,
+                          user_id: user.id)
+      end
+
+      response '200', 'ticket activity log deleted' do
+        let(:id) { ticket_activity_log.id }
+        run_test!
+      end
+    end
+  end
 end

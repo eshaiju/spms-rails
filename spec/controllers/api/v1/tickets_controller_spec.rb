@@ -142,7 +142,7 @@ describe Api::V1::TicketsController do
         expect(json_response).to have_key(:error)
       end
 
-      it 'renders the json errors on whye the user could not be created' do
+      it 'renders the json errors on why the ticket could not be deleted' do
         expect(json_response[:error]).to eq 'unauthorized'
       end
 
