@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DashboardSerializer < BaseSerializer
-  attributes :id
+  attributes :id, :total_hours_in_current_month, :total_activities_of_current_month, :total_tickets_of_current_month, :total_hours_in_previous_month
 
   attribute :projects do |object|
     ProjectSerializer.new(object.projects, fields: { project: [:name] })

@@ -20,7 +20,7 @@ describe Api::V1::DashboardController do
                                       created_user: user,
                                       assigned_user_id: user.id,
                                       project_id: @project.id,
-                                      start_date: Time.zone.now - 1.day)
+                                      start_date: Time.zone.now - 1.month)
       @activity = FactoryBot.create(:ticket_activity_log,
                                     ticket: @ticket,
                                     user: user,
@@ -28,7 +28,7 @@ describe Api::V1::DashboardController do
       @activity_old = FactoryBot.create(:ticket_activity_log,
                                         ticket: @ticket_old,
                                         user: user,
-                                        log_date: Time.zone.now - 1.day)
+                                        log_date: Time.zone.now - 1.month)
       get :index, params: { start_date: Time.zone.now }, format: :json
     end
 
@@ -70,6 +70,30 @@ describe Api::V1::DashboardController do
 
     it 'returns all assigned projects name and ID' do
       expect(json_response[:dashboard][:data][:attributes][:projects][:data][0][:id]).to eql @project.id.to_s
+    end
+
+    it 'return total activity hours in current month' do
+      expect(json_response[:dashboard][:data][:attributes][:total_hours_in_current_month]).to eq @activity.log_time
+    end
+
+    it 'return total activity hours in previous month' do
+      expect(json_response[:dashboard][:data][:attributes][:total_hours_in_current_month]).to eq @activity.log_time
+    end
+
+    it 'return total activity hours in current month' do
+      expect(json_response[:dashboard][:data][:attributes][:total_hours_in_current_month]).to eq @activity.log_time
+    end
+
+    it 'return total activity hours in current month' do
+      expect(json_response[:dashboard][:data][:attributes][:total_hours_in_previous_month]).to eq @activity_old.log_time
+    end
+
+    it 'return total activity count current month' do
+      expect(json_response[:dashboard][:data][:attributes][:total_activities_of_current_month]).to eq 1
+    end
+
+    it 'return total ticket count in current month' do
+      expect(json_response[:dashboard][:data][:attributes][:total_tickets_of_current_month]).to eq 1
     end
 
     it { is_expected.to respond_with 200 }
