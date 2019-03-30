@@ -8,7 +8,8 @@ module Api
 
       def my_projects
         respond_with ProjectSerializer.new(
-          current_user.projects
+          current_user.projects,
+          params: { include: [:manager] }
         )
       end
     end
