@@ -11,7 +11,7 @@ class TicketService
     tickets = tickets.where(project_id: project_id) if project_id.present?
     tickets = tickets.where(assigned_user_id: assigned_user_id) if assigned_user_id.present?
     tickets.page(page) if page.present?
-    tickets
+    tickets.order(id: :desc)
   end
 
   private

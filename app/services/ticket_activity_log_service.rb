@@ -11,7 +11,7 @@ class TicketActivityLogService
     activity_logs = activity_logs.where(ticket_id: ticket_id) if ticket_id.present?
     activity_logs = activity_logs.where(user: user_id) if user_id.present?
     activity_logs.page(page) if page.present?
-    activity_logs
+    activity_logs.order(id: :desc)
   end
 
   private
