@@ -8,7 +8,7 @@ class DashboardSerializer < BaseSerializer
   end
 
   attribute :tickets do |object|
-    TicketSerializer.new(object.tickets, fields: { ticket: %i[title start_date end_date] })
+    TicketSerializer.new(object.tickets, fields: { ticket: %i[id, title start_date end_date, ticket_no] })
   end
 
   attribute :ticket_activity_logs do |object|
