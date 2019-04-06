@@ -4,7 +4,7 @@ class Ticket < ApplicationRecord
   belongs_to :project
   belongs_to :created_user, polymorphic: true
   belongs_to :assigned_user, class_name: 'User', optional: true
-  has_many :ticket_activity_logs
+  has_many :ticket_activity_logs, dependent: :destroy
 
   validates :title, :ticket_no, presence: true, uniqueness: true
   validates :start_date, :category, presence: true
